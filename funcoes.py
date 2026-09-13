@@ -1,22 +1,5 @@
-def FusaoDeSensores():
-    radar = float(input('Leitura do sensor radar (ondas de rádio) (metros): '))
-    lidar = float(input('Leitura do sensor lidar (pulsos de luz laser) (metros): '))
-    camera = float(input('Leitura do sensor câmera (metros): '))
-
-"""
-xyz: x < y < z
-xzy: x < y > z
-zxy: x < y > z
-yxz: x > y < z
-yzx: x > y < z
-zyx: x > y > z
-
-xyz
-xzy
-zxy
-"""
-
-def ordenarCrescente(x, y, z):
+def FusaoDeSensores(x,y,z):
+    #ordena em crescente os valores
     if x < y:
         if x < z:
             if y < z:
@@ -33,6 +16,10 @@ def ordenarCrescente(x, y, z):
                 return z, y, x
         else:
             return y, x, z
+
+
+    
+
 
 """    
 Organize os dados: Coloque os números do menor para o maior (ou do maior para o menor). [1] 
