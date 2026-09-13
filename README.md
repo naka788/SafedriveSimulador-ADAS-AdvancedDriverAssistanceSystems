@@ -12,8 +12,17 @@ Função Fusão de sensores
 5. Leitura do sensor câmera 3 (metros)
 
 
+
 6. Atrito da via (ex: 0.8 para pista seca, 0.4 para pista molhada, 0.25 baixa
 aderência)
+
+Modos de condução e distância segura (A FAZER)
 7. Nível de sensibilidade ADAS (1 = esportivo, 2 = normal, 3 = seguro)
+
+
 8. Distância da faixa esquerda (metros)
 9. Distância da faixa direita (metros)
+
+A FAZER:
+ REGRA B: Modos de condução e distância segura
+ COLOCAR TODAS AS ENTRADAS NO SAFEDRIVE.PY
