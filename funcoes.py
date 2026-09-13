@@ -17,16 +17,3 @@ def FusaoDeSensores(x,y,z):
         else:
             return y, x, z
 
-
-    
-
-
-"""    
-Organize os dados: Coloque os números do menor para o maior (ou do maior para o menor). [1] 
-
-Conte a quantidade de elementos: Veja se o total de números no conjunto é ímpar ou par.
-
-Se a quantidade for ímpar: A mediana é exatamente o número que fica no meio da lista.
-
-Se a quantidade for par: A mediana é a média aritmética dos dois números centrais (some os dois do meio e divida por 2)
-"""
