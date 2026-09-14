@@ -19,13 +19,18 @@ distFaixaEsq = float(input('Distância da faixa esquerda (metros): ')) #8
 distFaixaDir = float(input('Distância da faixa direita (metros): ')) #9
 
 
-#atribui os valores do return a 3 variaveis identificadas por começo, meio e fim.
+#atribui os valores do return a 3 variaveis identificadas por começo, meio e fim para representação apenas de um dos valores do return
 valorComeço, valorMeio, valorFim = funcoes.FusaoDeSensores(radar, lidar, camera)
 
 
 #atribui os valores do return a uma variavel para poder ser reutilizado na impressao da analise de colisão frontal
 distanciaSegura = funcoes.CalcDistanciaSegura(velocidadeAtual, nivelADAS, atritoVia)
 
+#atribui os valores do return a 2 variaveis identificadas como status frontal e aeb para representação individual de cada return
+statusFrontal, aeb = funcoes.anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)
+
+#atribui os valores do return a 3 variaveis identificadas como margemExigida, faixaEsquerda, faixaDireita para representação individual de cada return
+margemExigida, faixaEsquerda, faixaDireita = funcoes.assFaixaDinamico(velocidadeAtual, distFaixaEsq, distFaixaDir)
 
 #imprime a mediana, e de acordo com a doc, a "Distância Validada"
 print(f'Distância validada: {valorMeio} m')
@@ -34,4 +39,16 @@ print(f'Distância validada: {valorMeio} m')
 print(f'Distância segura: {distanciaSegura:.2f} m')
 
 #imprime o "Status frontal" com base na função "anlsColisaoFrontal"
-print(f'Status frontal: {funcoes.anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)}')
+print(f'Status frontal: {statusFrontal}')
+
+#imprime o "AEB" com base na função "anlsColisaoFrontal"
+print(f'AEB: {aeb}')
+
+#imprime a "Margem lateral exigida" com base na função "assFaixaDinamico"
+print(f'Margem lateral exigida: {margemExigida}')
+
+#imprime a "Faixa esquerda" com base na função "assFaixaDinamico"
+print(f'Faixa esquerda: {faixaEsquerda}')
+
+#imprime a "Faixa direita" com base na função "assFaixaDinamico"
+print(f'Faixa direita: {faixaDireita}')

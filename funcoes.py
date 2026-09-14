@@ -39,12 +39,55 @@ def anlsColisaoFrontal(a,b,c,d):
     distanciaValidada = d
     status = 'seguro'
     if veloRelativa <= float(0):
-        return status
+        return status, 'não acionado'
     elif distanciaValidada >= distanciaSegura:
-        return status
+        return status, 'não acionado'
     elif distanciaValidada < distanciaSegura and distanciaValidada >= (distanciaSegura / 2):
         status = 'atenção'
-        return status
+        return status, 'não acionado'
     else:
         status = 'risco de colisão (AEB - Frenagem Automática de Emergência acionado)'
-        return status
+        return status, 'ACIONADO'
+
+def assFaixaDinamico(x,y,z):
+    velocidadeAtual = x
+    distFaixaEsq = y
+    distFaixaDir = z
+    margemBase = float(0.50)
+    acrescimoDinamico = float(0)
+    margemSeguranca = float(0.20)
+
+    if velocidadeAtual > 80:
+        acrescimoDinamico = ((velocidadeAtual - 80) / 1000) + margemBase
+
+
+    if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
+
+        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+            return acrescimoDinamico, 'atenção', 'atenção'
+
+        elif distFaixaDir < acrescimoDinamico:
+            return acrescimoDinamico, 'atenção', 'perigo de invasão'
+
+        else:
+            return acrescimoDinamico, 'atenção', 'normal'    
+
+
+    elif distFaixaEsq < acrescimoDinamico:
+
+        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+            return acrescimoDinamico, 'perigo de invasão', 'atenção'
+
+        elif distFaixaDir < acrescimoDinamico:
+             return acrescimoDinamico, 'perigo de invasão', 'perigo de invasão'
+        else:
+            return acrescimoDinamico, 'perigo de invasão', 'normal'
+
+
+    elif distFaixaDir < (acrescimoDinamico + margemSeguranca):
+        return acrescimoDinamico, 'normal', 'atenção'
+
+    elif distFaixaDir < acrescimoDinamico:
+        return acrescimoDinamico, 'normal', 'perigo de invasão'
+    else:
+        return acrescimoDinamico, 'normal', 'normal' 
