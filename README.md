@@ -24,5 +24,4 @@ Modos de condução e distância segura (A FAZER)
 9. Distância da faixa direita (metros)
 
 A FAZER:
- REGRA B: Modos de condução e distância segura
- COLOCAR TODAS AS ENTRADAS NO SAFEDRIVE.PY
+ ultima regra
