@@ -37,13 +37,13 @@ def anlsColisaoFrontal(a,b,c,d):
     veloRelativa = veloAtual - veloFrente
     distanciaSegura = c
     distanciaValidada = d
-    status = 'seguro'
+    status = 'SEGURO'
     if veloRelativa <= float(0):
         return status, 'não acionado'
     elif distanciaValidada >= distanciaSegura:
         return status, 'não acionado'
     elif distanciaValidada < distanciaSegura and distanciaValidada >= (distanciaSegura / 2):
-        status = 'atenção'
+        status = 'ATENÇÃO'
         return status, 'não acionado'
     else:
         status = 'risco de colisão (AEB - Frenagem Automática de Emergência acionado)'
@@ -59,35 +59,36 @@ def assFaixaDinamico(x,y,z):
 
     if velocidadeAtual > 80:
         acrescimoDinamico = ((velocidadeAtual - 80) / 1000) + margemBase
-
+    else:
+        acrescimoDinamico = margemBase
 
     if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
 
         if distFaixaDir < (acrescimoDinamico + margemSeguranca):
-            return acrescimoDinamico, 'atenção', 'atenção'
+            return acrescimoDinamico, 'ATENÇÃO', 'ATENÇÃO'
 
         elif distFaixaDir < acrescimoDinamico:
-            return acrescimoDinamico, 'atenção', 'perigo de invasão'
+            return acrescimoDinamico, 'ATENÇÃO', 'PERIGO DE INVASÃO'
 
         else:
-            return acrescimoDinamico, 'atenção', 'normal'    
+            return acrescimoDinamico, 'ATENÇÃO', 'NORMAL'    
 
 
     elif distFaixaEsq < acrescimoDinamico:
 
         if distFaixaDir < (acrescimoDinamico + margemSeguranca):
-            return acrescimoDinamico, 'perigo de invasão', 'atenção'
+            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'ATENÇÃO'
 
         elif distFaixaDir < acrescimoDinamico:
-             return acrescimoDinamico, 'perigo de invasão', 'perigo de invasão'
+             return acrescimoDinamico, 'PERIGO DE INVASÃO', 'PERIGO DE INVASÃO'
         else:
-            return acrescimoDinamico, 'perigo de invasão', 'normal'
+            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'NORMAL'
 
 
     elif distFaixaDir < (acrescimoDinamico + margemSeguranca):
-        return acrescimoDinamico, 'normal', 'atenção'
+        return acrescimoDinamico, 'NORMAL', 'ATENÇÃO'
 
     elif distFaixaDir < acrescimoDinamico:
-        return acrescimoDinamico, 'normal', 'perigo de invasão'
+        return acrescimoDinamico, 'NORMAL', 'PERIGO DE INVASÃO'
     else:
-        return acrescimoDinamico, 'normal', 'normal' 
+        return acrescimoDinamico, 'NORMAL', 'NORMAL' 

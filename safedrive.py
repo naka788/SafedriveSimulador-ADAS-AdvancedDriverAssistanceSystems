@@ -45,7 +45,7 @@ print(f'Status frontal: {statusFrontal}')
 print(f'AEB: {aeb}')
 
 #imprime a "Margem lateral exigida" com base na função "assFaixaDinamico"
-print(f'Margem lateral exigida: {margemExigida}')
+print(f'Margem lateral exigida: {margemExigida:.2f}M')
 
 #imprime a "Faixa esquerda" com base na função "assFaixaDinamico"
 print(f'Faixa esquerda: {faixaEsquerda}')
