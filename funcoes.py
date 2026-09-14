@@ -17,3 +17,16 @@ def FusaoDeSensores(x,y,z):
         else:
             return y, x, z
 
+
+def CalcDistanciaSegura(x,y,z):
+    Vms = x / 3.6
+    tempoDeReacao = float(1.5)
+    if y == 3:
+        tempoDeReacao = float(2.0)
+    elif y == 1:
+        tempoDeReacao = float(1.0)
+    atrito = z
+    
+    DistanciaSegura = (Vms * tempoDeReacao) + (Vms**2) / (2 * atrito * 9.81)
+
+    return DistanciaSegura 
