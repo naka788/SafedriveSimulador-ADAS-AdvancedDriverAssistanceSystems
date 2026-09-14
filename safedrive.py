@@ -22,7 +22,16 @@ distFaixaDir = float(input('Distância da faixa direita (metros): ')) #9
 #atribui os valores do return a 3 variaveis identificadas por começo, meio e fim.
 valorComeço, valorMeio, valorFim = funcoes.FusaoDeSensores(radar, lidar, camera)
 
-#imprimi a mediana, e de acordo com a doc, a "Distância Validada"
+
+#atribui os valores do return a uma variavel para poder ser reutilizado na impressao da analise de colisão frontal
+distanciaSegura = funcoes.CalcDistanciaSegura(velocidadeAtual, nivelADAS, atritoVia)
+
+
+#imprime a mediana, e de acordo com a doc, a "Distância Validada"
 print(f'Distância validada: {valorMeio} m')
 
-print(f'Distância segura: {funcoes.CalcDistanciaSegura(velocidadeAtual, nivelADAS, atritoVia):.2f} m')
+#imprime a "Distância segura" com base no calculo de acordo com a doc
+print(f'Distância segura: {distanciaSegura:.2f} m')
+
+#imprime o "Status frontal" com base na função "anlsColisaoFrontal"
+print(f'Status frontal: {funcoes.anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)}')
