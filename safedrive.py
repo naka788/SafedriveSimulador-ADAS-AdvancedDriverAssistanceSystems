@@ -32,6 +32,7 @@ statusFrontal, aeb = funcoes.anlsColisaoFrontal(velocidadeAtual, velocidadeFrent
 #atribui os valores do return a 3 variaveis identificadas como margemExigida, faixaEsquerda, faixaDireita para representação individual de cada return
 margemExigida, faixaEsquerda, faixaDireita = funcoes.assFaixaDinamico(velocidadeAtual, distFaixaEsq, distFaixaDir)
 
+
 #imprime a mediana, e de acordo com a doc, a "Distância Validada"
 print(f'Distância validada: {valorMeio} m')
 
@@ -52,3 +53,6 @@ print(f'Faixa esquerda: {faixaEsquerda}')
 
 #imprime a "Faixa direita" com base na função "assFaixaDinamico"
 print(f'Faixa direita: {faixaDireita}')
+
+
+print(f'STATUS GERAL: {funcoes.decisaoFinal(statusFrontal, faixaEsquerda, faixaDireita)}')

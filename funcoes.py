@@ -46,7 +46,7 @@ def anlsColisaoFrontal(a,b,c,d):
         status = 'ATENÇÃO'
         return status, 'não acionado'
     else:
-        status = 'risco de colisão (AEB - Frenagem Automática de Emergência acionado)'
+        status = 'RISCO DE COLISÃO'
         return status, 'ACIONADO'
 
 def assFaixaDinamico(x,y,z):
@@ -92,3 +92,20 @@ def assFaixaDinamico(x,y,z):
         return acrescimoDinamico, 'NORMAL', 'PERIGO DE INVASÃO'
     else:
         return acrescimoDinamico, 'NORMAL', 'NORMAL' 
+
+
+def decisaoFinal(x,y,z):
+
+    statusFrontal = x
+    faixaEsq = y
+    faixaDir = z
+    statusGeral = 'NORMAL'
+
+    if statusFrontal == 'RISCO DE COLISÃO' or faixaEsq == 'PERIGO DE INVASÃO' or faixaDir == 'PERIGO DE INVASÃO':
+        statusGeral = 'INTERVENÇÃO CRITICA EXIGIDA'
+        return statusGeral
+    elif statusFrontal == 'ATENÇÃO' or faixaEsq == 'ATENÇÃO' or faixaDir == 'ATENÇÃO':
+        statusGeral = 'ATENÇÃO'
+        return statusGeral
+    else:
+        return statusGeral
