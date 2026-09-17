@@ -56,12 +56,28 @@ def assFaixaDinamico(x,y,z):
     margemBase = float(0.50)
     acrescimoDinamico = float()
     margemSeguranca = float(0.20)
+    statusFaixaEsq = 'NORMAL'
+    statusFaixaDir = 'NORMAL'
 
     if velocidadeAtual > 80:
         acrescimoDinamico = (0.01 * (velocidadeAtual - 80)) + margemBase
     else:
         acrescimoDinamico = margemBase
 
+
+    if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
+        statusFaixaEsq = 'ATENÇÃO'
+    elif distFaixaEsq < acrescimoDinamico:
+        statusFaixaEsq = 'PERIGO DE INVASÃO'
+
+    if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+        statusFaixaDir = 'ATENÇÃO'
+    elif distFaixaDir < acrescimoDinamico:
+        statusFaixaDir = 'PERIGO DE INVASÃO'
+
+    return acrescimoDinamico, statusFaixaEsq, statusFaixaDir
+
+    """
     if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
 
         if distFaixaDir < (acrescimoDinamico + margemSeguranca):
@@ -72,8 +88,6 @@ def assFaixaDinamico(x,y,z):
 
         else:
             return acrescimoDinamico, 'ATENÇÃO', 'NORMAL'    
-
-
     elif distFaixaEsq < acrescimoDinamico:
 
         if distFaixaDir < (acrescimoDinamico + margemSeguranca):
@@ -83,8 +97,6 @@ def assFaixaDinamico(x,y,z):
              return acrescimoDinamico, 'PERIGO DE INVASÃO', 'PERIGO DE INVASÃO'
         else:
             return acrescimoDinamico, 'PERIGO DE INVASÃO', 'NORMAL'
-
-
     elif distFaixaDir < (acrescimoDinamico + margemSeguranca):
         return acrescimoDinamico, 'NORMAL', 'ATENÇÃO'
 
@@ -92,7 +104,7 @@ def assFaixaDinamico(x,y,z):
         return acrescimoDinamico, 'NORMAL', 'PERIGO DE INVASÃO'
     else:
         return acrescimoDinamico, 'NORMAL', 'NORMAL' 
-
+    """
 
 def decisaoFinal(x,y,z):
 
