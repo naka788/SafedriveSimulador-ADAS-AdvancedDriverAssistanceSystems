@@ -54,11 +54,11 @@ def assFaixaDinamico(x,y,z):
     distFaixaEsq = y
     distFaixaDir = z
     margemBase = float(0.50)
-    acrescimoDinamico = float(0)
+    acrescimoDinamico = float()
     margemSeguranca = float(0.20)
 
     if velocidadeAtual > 80:
-        acrescimoDinamico = ((velocidadeAtual - 80) / 1000) + margemBase
+        acrescimoDinamico = (0.01 * (velocidadeAtual - 80)) + margemBase
     else:
         acrescimoDinamico = margemBase
 
