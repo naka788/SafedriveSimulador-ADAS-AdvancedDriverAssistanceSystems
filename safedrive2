@@ -1,0 +1,181 @@
+def FusaoDeSensores(x,y,z):
+    #ordena em crescente os valores
+    if x < y:
+        if x < z:
+            if y < z:
+                return x, y, z
+            else:
+                return x, z, y
+        else:
+            return z, x, y
+    else:
+        if x > z:
+            if z > y:
+                return y, z, x
+            else:
+                return z, y, x
+        else:
+            return y, x, z
+
+
+def CalcDistanciaSegura(x,y,z):
+    Vms = x / 3.6
+    tempoDeReacao = float(1.5)
+    if y == 3:
+        tempoDeReacao = float(2.0)
+    elif y == 1:
+        tempoDeReacao = float(1.0)
+    atrito = z
+    
+    DistanciaSegura = (Vms * tempoDeReacao) + (Vms**2) / (2 * atrito * 9.81)
+
+    return DistanciaSegura 
+
+def anlsColisaoFrontal(a,b,c,d):
+    veloAtual = a
+    veloFrente = b
+    veloRelativa = veloAtual - veloFrente
+    distanciaSegura = c
+    distanciaValidada = d
+    status = 'SEGURO'
+    if veloRelativa <= float(0):
+        return status, 'não acionado'
+    elif distanciaValidada >= distanciaSegura:
+        return status, 'não acionado'
+    elif distanciaValidada < distanciaSegura and distanciaValidada >= (distanciaSegura / 2):
+        status = 'ATENÇÃO'
+        return status, 'não acionado'
+    else:
+        status = 'RISCO DE COLISÃO'
+        return status, 'ACIONADO'
+
+def assFaixaDinamico(x,y,z):
+    velocidadeAtual = x
+    distFaixaEsq = y
+    distFaixaDir = z
+    margemBase = float(0.50)
+    acrescimoDinamico = float()
+    margemSeguranca = float(0.20)
+    statusFaixaEsq = 'NORMAL'
+    statusFaixaDir = 'NORMAL'
+
+    if velocidadeAtual > 80:
+        acrescimoDinamico = (0.01 * (velocidadeAtual - 80)) + margemBase
+    else:
+        acrescimoDinamico = margemBase
+
+
+    if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
+        statusFaixaEsq = 'ATENÇÃO'
+    elif distFaixaEsq < acrescimoDinamico:
+        statusFaixaEsq = 'PERIGO DE INVASÃO'
+
+    if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+        statusFaixaDir = 'ATENÇÃO'
+    elif distFaixaDir < acrescimoDinamico:
+        statusFaixaDir = 'PERIGO DE INVASÃO'
+
+    return acrescimoDinamico, statusFaixaEsq, statusFaixaDir
+
+    """
+    if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
+
+        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+            return acrescimoDinamico, 'ATENÇÃO', 'ATENÇÃO'
+
+        elif distFaixaDir < acrescimoDinamico:
+            return acrescimoDinamico, 'ATENÇÃO', 'PERIGO DE INVASÃO'
+
+        else:
+            return acrescimoDinamico, 'ATENÇÃO', 'NORMAL'    
+    elif distFaixaEsq < acrescimoDinamico:
+
+        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
+            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'ATENÇÃO'
+
+        elif distFaixaDir < acrescimoDinamico:
+             return acrescimoDinamico, 'PERIGO DE INVASÃO', 'PERIGO DE INVASÃO'
+        else:
+            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'NORMAL'
+    elif distFaixaDir < (acrescimoDinamico + margemSeguranca):
+        return acrescimoDinamico, 'NORMAL', 'ATENÇÃO'
+
+    elif distFaixaDir < acrescimoDinamico:
+        return acrescimoDinamico, 'NORMAL', 'PERIGO DE INVASÃO'
+    else:
+        return acrescimoDinamico, 'NORMAL', 'NORMAL' 
+    """
+
+def decisaoFinal(x,y,z):
+
+    statusFrontal = x
+    faixaEsq = y
+    faixaDir = z
+    statusGeral = 'NORMAL'
+
+    if statusFrontal == 'RISCO DE COLISÃO' or faixaEsq == 'PERIGO DE INVASÃO' or faixaDir == 'PERIGO DE INVASÃO':
+        statusGeral = 'INTERVENÇÃO CRITICA EXIGIDA'
+        return statusGeral
+    elif statusFrontal == 'ATENÇÃO' or faixaEsq == 'ATENÇÃO' or faixaDir == 'ATENÇÃO':
+        statusGeral = 'ATENÇÃO'
+        return statusGeral
+    else:
+        return statusGeral
+
+
+#valores para "Modos de condução e distância segura"
+velocidadeAtual = float(input('Velocidade do veículo atual (km/h): ')) #1
+
+
+velocidadeFrente = float(input('Velocidade do veículo à frente (km/h): ')) #2
+
+#valores para "Fusão de Sensores"
+radar = float(input('Leitura do sensor radar (ondas de rádio) (metros): ')) #3
+lidar = float(input('Leitura do sensor lidar (pulsos de luz laser) (metros): ')) #4
+camera = float(input('Leitura do sensor câmera (metros): ')) #5
+
+#valores para "Modos de condução e distância segura"
+atritoVia = float(input('Atrito da via (ex: 0.8 para pista seca, 0.4 para pista molhada, 0.25 baixa aderência): ')) #6
+nivelADAS = int(input('Nível de sensibilidade ADAS (1 = esportivo, 2 = normal, 3 = seguro): ')) #7
+
+distFaixaEsq = float(input('Distância da faixa esquerda (metros): ')) #8
+distFaixaDir = float(input('Distância da faixa direita (metros): ')) #9
+
+
+#atribui os valores do return a 3 variaveis identificadas por começo, meio e fim para representação apenas de um dos valores do return
+valorComeço, valorMeio, valorFim = FusaoDeSensores(radar, lidar, camera)
+
+
+#atribui os valores do return a uma variavel para poder ser reutilizado na impressao da analise de colisão frontal
+distanciaSegura = CalcDistanciaSegura(velocidadeAtual, nivelADAS, atritoVia)
+
+#atribui os valores do return a 2 variaveis identificadas como status frontal e aeb para representação individual de cada return
+statusFrontal, aeb = anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)
+
+#atribui os valores do return a 3 variaveis identificadas como margemExigida, faixaEsquerda, faixaDireita para representação individual de cada return
+margemExigida, faixaEsquerda, faixaDireita = assFaixaDinamico(velocidadeAtual, distFaixaEsq, distFaixaDir)
+
+
+#imprime a mediana, e de acordo com a doc, a "Distância Validada"
+print(f'Distância validada: {valorMeio} m')
+
+#imprime a "Distância segura" com base no calculo de acordo com a doc
+print(f'Distância segura: {distanciaSegura:.2f} m')
+
+#imprime o "Status frontal" com base na função "anlsColisaoFrontal"
+print(f'Status frontal: {statusFrontal}')
+
+#imprime o "AEB" com base na função "anlsColisaoFrontal"
+print(f'AEB: {aeb}')
+
+#imprime a "Margem lateral exigida" com base na função "assFaixaDinamico"
+print(f'Margem lateral exigida: {margemExigida:.2f}M')
+
+#imprime a "Faixa esquerda" com base na função "assFaixaDinamico"
+print(f'Faixa esquerda: {faixaEsquerda}')
+
+#imprime a "Faixa direita" com base na função "assFaixaDinamico"
+print(f'Faixa direita: {faixaDireita}')
+
+
+print(f'STATUS GERAL: {decisaoFinal(statusFrontal, faixaEsquerda, faixaDireita)}')
