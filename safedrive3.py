@@ -33,17 +33,17 @@ def anlsColisaoFrontal(a,b,c,d):
     distanciaValidada = d
     status = 'SEGURO'
     if veloRelativa <= float(0):
-        return status, 'não acionado'
+        return status
     elif distanciaValidada >= distanciaSegura:
-        return status, 'não acionado'
+        return status
     elif distanciaValidada < distanciaSegura and distanciaValidada >= (distanciaSegura / 2):
         status = 'ATENÇÃO'
-        return status, 'não acionado'
+        return status
     else:
         status = 'RISCO DE COLISÃO'
-        return status, 'ACIONADO'
+        return status
 
-def assFaixaDinamico(x,y,z):
+def assAcrescimoDinamico(x,y,z):
     velocidadeAtual = x
     distFaixaEsq = y
     distFaixaDir = z
@@ -71,34 +71,6 @@ def assFaixaDinamico(x,y,z):
 
     return acrescimoDinamico, statusFaixaEsq, statusFaixaDir
 
-    """
-    if distFaixaEsq < (acrescimoDinamico + margemSeguranca):
-
-        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
-            return acrescimoDinamico, 'ATENÇÃO', 'ATENÇÃO'
-
-        elif distFaixaDir < acrescimoDinamico:
-            return acrescimoDinamico, 'ATENÇÃO', 'PERIGO DE INVASÃO'
-
-        else:
-            return acrescimoDinamico, 'ATENÇÃO', 'NORMAL'    
-    elif distFaixaEsq < acrescimoDinamico:
-
-        if distFaixaDir < (acrescimoDinamico + margemSeguranca):
-            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'ATENÇÃO'
-
-        elif distFaixaDir < acrescimoDinamico:
-             return acrescimoDinamico, 'PERIGO DE INVASÃO', 'PERIGO DE INVASÃO'
-        else:
-            return acrescimoDinamico, 'PERIGO DE INVASÃO', 'NORMAL'
-    elif distFaixaDir < (acrescimoDinamico + margemSeguranca):
-        return acrescimoDinamico, 'NORMAL', 'ATENÇÃO'
-
-    elif distFaixaDir < acrescimoDinamico:
-        return acrescimoDinamico, 'NORMAL', 'PERIGO DE INVASÃO'
-    else:
-        return acrescimoDinamico, 'NORMAL', 'NORMAL' 
-    """
 
 def decisaoFinal(x,y,z):
 
@@ -135,23 +107,29 @@ nivelADAS = int(input('Nível de sensibilidade ADAS (1 = esportivo, 2 = normal, 
 distFaixaEsq = float(input('Distância da faixa esquerda (metros): ')) #8
 distFaixaDir = float(input('Distância da faixa direita (metros): ')) #9
 
+#atribui valor da função em uma variavel para impressão
+mediana = FusaoDeSensores(radar, lidar, camera)
 
-#atribui os valores do return a 3 variaveis identificadas por começo, meio e fim para representação apenas de um dos valores do return
-valorComeço, valorMeio, valorFim = FusaoDeSensores(radar, lidar, camera)
 
-
-#atribui os valores do return a uma variavel para poder ser reutilizado na impressao da analise de colisão frontal
+#atribui os valores da função a uma variavel para impressão
 distanciaSegura = CalcDistanciaSegura(velocidadeAtual, nivelADAS, atritoVia)
 
-#atribui os valores do return a 2 variaveis identificadas como status frontal e aeb para representação individual de cada return
-statusFrontal, aeb = anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)
+#atribui os valores da função a uma variavel para impressão
+statusFrontal = anlsColisaoFrontal(velocidadeAtual, velocidadeFrente, distanciaSegura, valorMeio)
+
+#estado padrão do AEB
+aeb = 'não acionado'
+
+#estado AEB caso haja risco de colisão da função statusFrontal
+if statusFrontal == 'RISCO DE COLISÃO':
+    aeb = 'ACIONADO'
 
 #atribui os valores do return a 3 variaveis identificadas como margemExigida, faixaEsquerda, faixaDireita para representação individual de cada return
 margemExigida, faixaEsquerda, faixaDireita = assFaixaDinamico(velocidadeAtual, distFaixaEsq, distFaixaDir)
 
 
 #imprime a mediana, e de acordo com a doc, a "Distância Validada"
-print(f'Distância validada: {valorMeio} m')
+print(f'Distância validada: {mediana} m')
 
 #imprime a "Distância segura" com base no calculo de acordo com a doc
 print(f'Distância segura: {distanciaSegura:.2f} m')
